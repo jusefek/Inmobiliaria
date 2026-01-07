@@ -1,17 +1,54 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 const nextConfig: NextConfig = {
-    /* config options here */
     output: 'standalone',
-    // Optimize images from external sources (if using S3/MinIO)
+
+    // Configuración de headers para caché multilingüe
+    async headers() {
+        return [
+            {
+                // Aplicar a todas las rutas localizadas
+                source: '/:locale/:path*',
+                headers: [
+                    {
+                        key: 'Vary',
+                        value: 'Accept-Language, Cookie',
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff',
+                    },
+                ],
+            },
+            {
+                // Aplicar también a la raíz
+                source: '/',
+                headers: [
+                    {
+                        key: 'Vary',
+                        value: 'Accept-Language, Cookie',
+                    },
+                ],
+            },
+        ];
+    },
+
     images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '**', // Restrict this in production
+                hostname: 'images.unsplash.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'source.unsplash.com',
             },
         ],
     },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
+

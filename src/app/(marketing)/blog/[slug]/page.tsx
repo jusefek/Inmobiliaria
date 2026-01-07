@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const post = getPostBySlug(slug)
     return {
-      title: `${post.title} | InmoValencia`,
+      title: `${post.title} | TESELA PROJECTS`,
       description: post.summary,
     }
   } catch {

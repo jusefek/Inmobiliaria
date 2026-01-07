@@ -6,82 +6,81 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Home, ShieldCheck, Newspaper } from "lucide-react"
+import { LanguageSwitcher } from "./language-switcher"
+import { useTranslations } from 'next-intl'
 
 export function Navbar() {
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
     const pathname = usePathname()
+    const t = useTranslations('nav')
 
-    const navItems = [
-        { name: "Home", href: "/", icon: Home },
-        { name: "Services", href: "/services", icon: ShieldCheck },
-        { name: "Blog", href: "/blog", icon: Newspaper },
-        { name: "Contact", href: "/contact", icon: Home },
-    ]
+    // Get current locale from pathname
+    const currentLocale = pathname?.split('/')[1] || 'en'
+    const getPath = (path: string) => `/${currentLocale}${path}`
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-16 items-center justify-between">
-                <span className="text-xl font-bold tracking-tight text-primary">TESELA PROJECTS</span>
+        <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container flex h-20 items-center justify-between">
+                <span className="text-xl font-bold font-sans tracking-widest text-primary ml-4 md:ml-8">TESELA PROJECTS</span>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={cn(
-                                "transition-colors hover:text-foreground/80",
-                                pathname === item.href ? "text-foreground" : "text-foreground/60"
-                            )}
-                        >
-                            {item.name}
+                <div className="hidden md:flex gap-6 items-center">
+                    <Link href={getPath('/')} className="text-sm font-medium transition-colors hover:text-nolla-blue">{t('home')}</Link>
+                    <Link href={getPath('/services')} className="text-sm font-medium transition-colors hover:text-nolla-blue">{t('services')}</Link>
+                    <Link href={getPath('/blog')} className="text-sm font-medium transition-colors hover:text-nolla-blue">{t('blog')}</Link>
+                    <Link href={getPath('/contact')} className="text-sm font-medium transition-colors hover:text-nolla-blue">{t('contact')}</Link>
+                    <LanguageSwitcher />
+                    <Button className="bg-nolla-blue hover:bg-nolla-blue/90 text-white shadow-md transition-all hover:scale-105" asChild>
+                        <Link href={getPath('/services/audit')}>
+                            <ShieldCheck className="mr-2 h-4 w-4" />
+                            {t('audit')}
                         </Link>
-                    ))}
-                </nav>
-
-                {/* Auth Buttons */}
-                <div className="hidden md:flex items-center space-x-4">
-                    <Button variant="ghost" className="text-slate-600 hover:text-nolla-blue" asChild>
-                        <Link href="/login">Client Access</Link>
-                    </Button>
-                    <Button asChild className="bg-nolla-blue hover:bg-nolla-blue/90 text-white shadow-md">
-                        <Link href="/services/audit">Property Audit</Link>
                     </Button>
                 </div>
 
                 {/* Mobile Menu Toggle */}
                 <button
                     className="flex items-center p-2 md:hidden"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                    {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
             </div>
 
             {/* Mobile Nav */}
-            {isOpen && (
-                <div className="md:hidden border-t p-4 space-y-4 bg-background">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center space-x-2 text-sm font-medium p-2 hover:bg-muted rounded-md"
-                        >
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.name}</span>
+            {isMenuOpen && (
+                <div className="md:hidden border-t border-white/10 p-4 space-y-4 shadow-lg absolute w-full left-0 bg-nolla-blue text-white">
+                    <div className="flex flex-col space-y-4">
+                        <Link href={getPath('/')} onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2 text-sm font-medium p-2 hover:bg-white/10 rounded-md">
+                            <Home className="h-4 w-4 text-nolla-gold" />
+                            <span>{t('home')}</span>
                         </Link>
-                    ))}
-                    <div className="pt-4 border-t space-y-2">
-                        <Button variant="outline" className="w-full justify-start" asChild>
-                            <Link href="/login">Client Access</Link>
-                        </Button>
-                        <Button className="w-full justify-start bg-nolla-blue hover:bg-nolla-blue/90 text-white" asChild>
-                            <Link href="/services/anti-scam">Property Audit</Link>
+                        <Link href={getPath('/services')} onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2 text-sm font-medium p-2 hover:bg-white/10 rounded-md">
+                            <ShieldCheck className="h-4 w-4 text-nolla-gold" />
+                            <span>{t('services')}</span>
+                        </Link>
+                        <Link href={getPath('/blog')} onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2 text-sm font-medium p-2 hover:bg-white/10 rounded-md">
+                            <Newspaper className="h-4 w-4 text-nolla-gold" />
+                            <span>{t('blog')}</span>
+                        </Link>
+                        <Link href={getPath('/contact')} onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2 text-sm font-medium p-2 hover:bg-white/10 rounded-md">
+                            <Newspaper className="h-4 w-4 text-nolla-gold" />
+                            <span>{t('contact')}</span>
+                        </Link>
+                        <div className="pt-2">
+                            <LanguageSwitcher />
+                        </div>
+                    </div>
+                    <div className="pt-4 border-t border-white/10 space-y-2">
+                        <Button className="w-full justify-start bg-nolla-blue hover:bg-nolla-blue/90 text-white border border-white/20" asChild>
+                            <Link href={getPath('/services/audit')}>
+                                <ShieldCheck className="mr-2 h-4 w-4" />
+                                {t('audit')}
+                            </Link>
                         </Button>
                     </div>
                 </div>
             )}
-        </header>
+        </nav>
     )
 }

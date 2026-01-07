@@ -14,7 +14,7 @@ export default function BlogIndexPage() {
   return (
     <div className="container py-10">
       <div className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Blog InmoValencia</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Blog TESELA PROJECT</h1>
         <p className="mt-4 text-xl text-muted-foreground">
           Información privilegiada para inversores inteligentes.
         </p>

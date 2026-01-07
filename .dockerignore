@@ -1,0 +1,21 @@
+# node_modules already in .gitignore
+.next
+.git
+.gitignore
+README.md
+*.md
+.env*
+!.env.production.example
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode
+.idea
+coverage
+.vercel

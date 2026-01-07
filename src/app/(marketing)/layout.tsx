@@ -11,8 +11,8 @@ export default function MarketingLayout({
                 <div className="container flex h-14 items-center">
                     <div className="mr-4 hidden md:flex">
                         <a className="mr-6 flex items-center space-x-2" href="/">
-                            <span className="hidden font-bold sm:inline-block">
-                                InmoValencia
+                            <span className="text-xl font-bold tracking-tight text-white/90">
+                                TESELA PROJECTS
                             </span>
                         </a>
                         <nav className="flex items-center space-x-6 text-sm font-medium">

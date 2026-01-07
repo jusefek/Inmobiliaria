@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { FileSearch, PlusCircle, AlertCircle, CheckCircle2, FileText, Ban } from 'lucide-react'
 
 export const metadata = {
-    title: 'My Dashboard | InmoValencia',
+    title: 'My Dashboard | TESELA PROJECTS',
 }
 
 export default async function DashboardPage() {
@@ -55,6 +55,15 @@ export default async function DashboardPage() {
 
 // Sub-components
 
+// Safe URL hostname extractor
+function getHostname(url: string) {
+    try {
+        return new URL(url).hostname.replace('www.', '')
+    } catch {
+        return url
+    }
+}
+
 function EmptyState() {
     return (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center animate-in fade-in-50 h-[400px] bg-muted/10">
@@ -66,7 +75,7 @@ function EmptyState() {
                 Ready to invest? Submit a property URL and we will audit it for hidden risks in 24 hours.
             </p>
             <Button asChild>
-                <Link href="/services/new-request">Create your first request</Link>
+                <Link href="/services/audit/checkout">Create your first request</Link>
             </Button>
         </div>
     )
@@ -82,7 +91,7 @@ function RequestCard({ request }: { request: any }) {
             <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                 <div className="space-y-1">
                     <CardTitle className="text-base font-medium line-clamp-1">
-                        {new URL(request.propertyUrl).hostname.replace('www.', '')} Analysis
+                        {request.propertyUrl ? getHostname(request.propertyUrl) : 'Unknown Property'} Analysis
                     </CardTitle>
                     <CardDescription className="text-xs">
                         {new Date(request.createdAt).toLocaleDateString()}
@@ -92,7 +101,7 @@ function RequestCard({ request }: { request: any }) {
             </CardHeader>
             <CardContent className="pt-4 flex-1">
                 <div className="text-sm text-muted-foreground break-all line-clamp-2 mb-2">
-                    {request.propertyUrl}
+                    {request.propertyUrl || 'No link provided'}
                 </div>
                 {/* Logic for showing verdict preview if completed could go here */}
             </CardContent>
@@ -119,7 +128,6 @@ function RequestCard({ request }: { request: any }) {
         </Card>
     )
 }
-
 function StatusBadge({ status }: { status: string }) {
     switch (status) {
         case 'PENDING_PAYMENT':

@@ -1,30 +1,44 @@
 import { MetadataRoute } from 'next'
-import { getAllPosts } from '@/features/blog/utils'
+import { locations, locales } from '@/data/locations'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts()
-  const baseUrl = 'https://teselaprojects.com' // Change to real domain later
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://teselaprojects.com'
 
-  const blogUrls = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
-
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/services/anti-scam`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    ...blogUrls,
+  // Base routes that exist for all languages
+  const staticRoutes = [
+    '',
+    '/services',
+    '/services/audit',
+    '/blog',
+    '/contact',
   ]
+
+  const sitemapEntries: MetadataRoute.Sitemap = []
+
+  // 1. Generate static routes for each locale
+  staticRoutes.forEach(route => {
+    locales.forEach(locale => {
+      sitemapEntries.push({
+        url: `${baseUrl}/${locale}${route}`,
+        lastModified: new Date(),
+        changeFrequency: route.includes('audit') ? 'daily' : 'weekly',
+        priority: route === '' ? 1 : 0.8,
+      })
+    })
+  })
+
+  // 2. Generate city-specific routes for each locale
+  // e.g. /es/alicante, /en/alicante
+  locations.forEach(location => {
+    locales.forEach(locale => {
+      sitemapEntries.push({
+        url: `${baseUrl}/${locale}/${location.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      })
+    })
+  })
+
+  return sitemapEntries
 }

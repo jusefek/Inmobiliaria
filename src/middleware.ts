@@ -1,9 +1,15 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
+import createMiddleware from 'next-intl/middleware';
+import { locales } from './data/locations';
 
-export default NextAuth(authConfig).auth;
+export default createMiddleware({
+    // A list of all locales that are supported
+    locales: locales,
+
+    // Used when no locale matches
+    defaultLocale: 'en'
+});
 
 export const config = {
-    // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+    // Match only internationalized pathnames
+    matcher: ['/', '/(de|en|es|nl|fr|pl|it|ru|sv|no|da)/:path*']
 };

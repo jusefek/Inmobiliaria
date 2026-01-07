@@ -52,10 +52,11 @@ const config: Config = {
                     '5': 'hsl(var(--chart-5))'
                 },
                 nolla: {
-                    red: "#9F4636", // Terracotta
-                    blue: "#3B6F96", // Muted Ocean Blue
-                    cream: "#F3E9D9", // Cream/Beige
-                    grey: "#2D2D2D", // Charcoal
+                    blue: "#0F172A", // Deep Navy (Trust)
+                    gold: "#C6A15B", // Gold (Premium Accent)
+                    green: "#10B981", // Success/Safety
+                    cream: "#F8F5F2", // Light Beige (Background)
+                    grey: "#64748B", // Professional Text Grey
                 }
             },
             borderRadius: {

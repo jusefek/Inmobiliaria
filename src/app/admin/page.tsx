@@ -59,7 +59,7 @@ export default async function AdminDashboard() {
                                 </div>
                             </TableCell>
                             <TableCell className="max-w-[300px] truncate">
-                                <a href={req.propertyUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline text-blue-600">
+                                <a href={req.propertyUrl || '#'} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline text-blue-600">
                                     <ExternalLink className="h-3 w-3" />
                                     {req.propertyUrl}
                                 </a>
@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
                                 <StatusBadge status={req.status} />
                             </TableCell>
                             <TableCell className="text-right">
-                                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(req.amountPaid)}
+                                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(Number(req.amountPaid))}
                             </TableCell>
                             <TableCell className="text-right">
                                 <Button size="icon" variant="ghost">

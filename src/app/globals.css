@@ -13,19 +13,18 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Nolla Blue as Primary (User preference: removing Red) */
-    --primary: 206 44% 41%;
+    /* Deep Navy Blue (Trust) */
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 40 46% 90%;
-    /* Cream/Beige as Secondary */
-    --secondary-foreground: 9 49% 42%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Nolla Blue as Accent */
-    --accent: 205 43% 41%;
+    /* Gold Accent */
+    --accent: 40 46% 57%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
